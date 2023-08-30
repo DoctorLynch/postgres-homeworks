@@ -1,17 +1,33 @@
 """Скрипт для заполнения данными таблиц в БД Postgres."""
+import csv
 import psycopg2
 
-#  connect to database
+# employees
 conn = psycopg2.connect(host='localhost', database='north', user='postgres', password='02011999')
-try:
-    with conn:
-        with conn.cursor() as cur:
-            # execute query
-            cur.execute('INSERT INTO employees VALUES (%s, %s, %s, %s, %s, %s)', (1, 'Nancy', 'Davolio' ,'Sales Representative', '1948-12-08', 'Education includes a BA in psychology from Colorado State University in 1970.  She also completed The Art of the Cold Call.  Nancy is a member of Toastmasters International.'
-))
-            cur.execute('SELECT * FROM employees')
-            rows = cur.fetchall()
-            for row in rows:
-                print(row)
-finally:
-    conn.close()
+cur = conn.cursor()
+with open('/Users/Катюша/postgres-homeworks/homework-1/north_data/employees_data.csv', 'r') as f:
+    reader = csv.reader(f)
+    next(reader)  # Пропустит первую строчку
+    for row in reader:
+        cur.execute("INSERT INTO employees VALUES (%s, %s, %s, %s, %s, %s)", row)
+conn.commit()
+
+# customers
+conn = psycopg2.connect(host='localhost', database='north', user='postgres', password='02011999')
+cur = conn.cursor()
+with open('/Users/Катюша/postgres-homeworks/homework-1/north_data/customers_data.csv', 'r') as f:
+    reader = csv.reader(f)
+    next(reader)  # Пропустит первую строчку
+    for row in reader:
+        cur.execute("INSERT INTO customers VALUES (%s, %s, %s)", row)
+conn.commit()
+
+# orders
+conn = psycopg2.connect(host='localhost', database='north', user='postgres', password='02011999')
+cur = conn.cursor()
+with open('/Users/Катюша/postgres-homeworks/homework-1/north_data/orders_data.csv', 'r') as f:
+    reader = csv.reader(f)
+    next(reader)  # Пропустит первую строчку
+    for row in reader:
+        cur.execute("INSERT INTO orders VALUES (%s, %s, %s, %s, %s)", row)
+conn.commit()

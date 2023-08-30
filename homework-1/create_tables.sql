@@ -10,16 +10,12 @@ CREATE TABLE employees
 	notes varchar(500) NOT NULL
 );
 
-SELECT * FROM employees
-
 CREATE TABLE customers
 (
 	customer_id varchar(100) PRIMARY KEY,
 	company_name varchar(100) NOT NULL,
 	contact_name varchar(100) NOT NULL
 );
-
-SELECT * FROM customers
 
 CREATE TABLE orders
 (
@@ -28,6 +24,4 @@ CREATE TABLE orders
 	employee_id int REFERENCES employees(employee_id) NOT NULL,
 	order_date varchar(100) NOT NULL,
 	ship_city varchar(100) NOT NULL
-);
-
-SELECT * FROM orders
+)
